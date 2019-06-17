@@ -20,7 +20,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 
 if ! grep wheel < /etc/group >/dev/null 2>&1; then
   output "creating wheel group"
-  groupadd wheel
+  groupadd --gid 998 wheel
 fi
 
 if ! grep 1000 < /etc/passwd >/dev/null 2>&1; then
@@ -30,7 +30,7 @@ if ! grep 1000 < /etc/passwd >/dev/null 2>&1; then
 
   if [[ -n "$DOCKER_GID" ]]; then
     output "enabling access to host docker"
-    groupdel docker
+    groupdel docker || true 
     groupadd --gid "$DOCKER_GID" docker
     usermod -aG docker "$USERNAME_CONFIG"
     chgrp docker /var/run/docker.sock
@@ -78,6 +78,15 @@ EOF
   output " ... starting udevd"
   /usr/lib/systemd/systemd-udevd &
   udevadm trigger &
+fi
+
+# download containerenv if we can
+if [[ -n "$CONTAINERENV_VERSION" ]]; then
+  output "fetching containerenv ..."
+  wget "https://github.com/containerenv/containerenv/releases/download/$CONTAINERENV_VERSION/containerenv-linux-amd64.tar.xz" -O /tmp/containerenv.tar.xz
+  tar xvf /tmp/containerenv.tar.xz
+  cp /tmp/containerenv /usr/bin/containerenv
+  chmod +x /tmp/containerenv
 fi
 
 # setup the default user target
