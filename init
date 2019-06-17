@@ -90,6 +90,8 @@ if [[ -n "$CONTAINERENV_VERSION" ]]; then
   cp /tmp/containerenv /usr/bin/containerenv
   chmod +x /tmp/containerenv
   popd >/dev/null 2>&1
+
+  output "using containerenv version $CONTAINERENV_VERSION"
 fi
 
 # setup the default user target
