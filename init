@@ -18,6 +18,11 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
+if ! grep wheel < /etc/groups >/dev/null 2>&1; then
+  output "creating wheel group"
+  groupadd wheel
+fi
+
 if ! grep 1000 < /etc/passwd >/dev/null 2>&1; then
   output "creating user / group"
   groupadd --gid 1000 "$USERNAME_CONFIG" || true

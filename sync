@@ -8,17 +8,17 @@ output() {
 }
 
 failed_to_download() {
-  echo "Warning: Failed to pull the latest init script down"
+  output "Warning: Failed to pull the latest init script down"
 
   # use a previous version that commit most likely stored.
   if [[ ! -e "/init" ]]; then
-    echo "Error: no previous init version found, unable to start."
+    output "Error: no previous init version found, unable to start."
     exit 1
   fi
 }
 
-echo "pulling latest init script from the internet ..."
+output "pulling latest init script from the internet ..."
 git clone --depth=1 https://github.com/containerenv/init /init || failed_to_download
-echo "wrapping init"
+output "wrapping init"
 
 exec /init/init "$*"
