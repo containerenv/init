@@ -84,9 +84,12 @@ fi
 if [[ -n "$CONTAINERENV_VERSION" ]]; then
   output "fetching containerenv ..."
   wget "https://github.com/containerenv/containerenv/releases/download/$CONTAINERENV_VERSION/containerenv-linux-amd64.tar.xz" -O /tmp/containerenv.tar.xz
+  
+  pushd "/tmp" >/dev/null 2>&1
   tar xvf /tmp/containerenv.tar.xz
   cp /tmp/containerenv /usr/bin/containerenv
   chmod +x /tmp/containerenv
+  popd >/dev/null 2>&1
 fi
 
 # setup the default user target
