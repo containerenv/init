@@ -43,7 +43,7 @@ cat << EOF > "/home/$USERNAME_CONFIG/.bashrc"
   echo "Welcome! Please delete this .bashrc and replace it with something better."
   echo ""
 
-  if [[ ! -e "~/.xinitrc" ]] && [[ "\$X11_CONFIG" == "CONTAINER" ]]; then
+  if [[ ! -e "$HOME/.xinitrc" ]] && [[ "\$X11_CONFIG" == "CONTAINER" ]]; then
     echo "Warning: No ~/.xinitrc exists. Running startx will fail."
     echo ""
   fi
